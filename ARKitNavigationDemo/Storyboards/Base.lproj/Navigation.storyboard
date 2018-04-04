@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tXr-a1-R10">
+            <objects>
+                <viewController storyboardIdentifier="ViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BV1-FR-VrT" customClass="ViewController" customModule="ARKitNavigationDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ma0-Fz-KrA">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="qP7-DK-vfk">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="467"/>
+                                <subviews>
+                                    <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="azz-PJ-fCR">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="467"/>
+                                    </arscnView>
+                                </subviews>
+                            </stackView>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="o3r-2s-jwy">
+                                <rect key="frame" x="0.0" y="467" width="375" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="ZeW-us-FdJ"/>
+                                </constraints>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kIc-vA-l2b">
+                                <rect key="frame" x="0.0" y="621" width="79" height="20"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Reset">
+                                    <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="fillColor">
+                                        <color key="value" red="0.30364087709999998" green="0.52067719670000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="resetButtonTapped:" destination="BV1-FR-VrT" eventType="touchUpInside" id="9OF-6a-OXy"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q6L-nB-nuW">
+                                <rect key="frame" x="286" y="621" width="73" height="34"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Calibrate">
+                                    <color key="titleColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="Calibrate" destination="BV1-FR-VrT" eventType="touchUpInside" id="ZCm-Rb-QI9"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Touch Here To Begin" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EY2-dh-FBu">
+                                <rect key="frame" x="41" y="521" width="292" height="92"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Q6L-nB-nuW" firstAttribute="baseline" secondItem="kIc-vA-l2b" secondAttribute="baseline" id="09g-iy-yzF"/>
+                            <constraint firstItem="qP7-DK-vfk" firstAttribute="trailing" secondItem="o3r-2s-jwy" secondAttribute="trailing" id="27K-Ay-nly"/>
+                            <constraint firstItem="qP7-DK-vfk" firstAttribute="top" secondItem="Ma0-Fz-KrA" secondAttribute="top" id="43r-me-fDw"/>
+                            <constraint firstItem="qP7-DK-vfk" firstAttribute="leading" secondItem="o3r-2s-jwy" secondAttribute="leading" id="8sH-tE-ueY"/>
+                            <constraint firstItem="kIc-vA-l2b" firstAttribute="top" secondItem="o3r-2s-jwy" secondAttribute="bottom" constant="-46" id="K2f-33-1qC"/>
+                            <constraint firstItem="qP7-DK-vfk" firstAttribute="leading" secondItem="Ma0-Fz-KrA" secondAttribute="leading" id="KFt-uH-ItJ"/>
+                            <constraint firstItem="qRm-Jb-I29" firstAttribute="trailing" secondItem="EY2-dh-FBu" secondAttribute="trailing" constant="42" id="KKK-cB-uzu"/>
+                            <constraint firstItem="kIc-vA-l2b" firstAttribute="width" secondItem="o3r-2s-jwy" secondAttribute="width" multiplier="0.21" id="TOF-i1-Gw1"/>
+                            <constraint firstItem="kIc-vA-l2b" firstAttribute="height" secondItem="o3r-2s-jwy" secondAttribute="height" multiplier="0.1" id="YES-Yr-PcM"/>
+                            <constraint firstItem="kIc-vA-l2b" firstAttribute="top" secondItem="EY2-dh-FBu" secondAttribute="bottom" constant="8" id="YiR-VU-hIy"/>
+                            <constraint firstItem="EY2-dh-FBu" firstAttribute="top" secondItem="qP7-DK-vfk" secondAttribute="bottom" constant="54" id="ZU7-Gv-HSy"/>
+                            <constraint firstItem="o3r-2s-jwy" firstAttribute="top" secondItem="qP7-DK-vfk" secondAttribute="bottom" id="jPi-qv-VAK"/>
+                            <constraint firstItem="Q6L-nB-nuW" firstAttribute="trailing" secondItem="Ma0-Fz-KrA" secondAttribute="trailingMargin" id="mMq-IN-3Iy"/>
+                            <constraint firstItem="EY2-dh-FBu" firstAttribute="leading" secondItem="qRm-Jb-I29" secondAttribute="leading" constant="41" id="nHy-YW-B5W"/>
+                            <constraint firstItem="o3r-2s-jwy" firstAttribute="bottom" secondItem="qRm-Jb-I29" secondAttribute="bottom" id="xk5-CK-T9H"/>
+                            <constraint firstItem="kIc-vA-l2b" firstAttribute="leading" secondItem="o3r-2s-jwy" secondAttribute="leading" id="ymC-PV-BeF"/>
+                            <constraint firstAttribute="trailing" secondItem="qP7-DK-vfk" secondAttribute="trailing" id="yoe-S7-qhB"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="qRm-Jb-I29"/>
+                    </view>
+                    <connections>
+                        <outlet property="TouchLabel" destination="EY2-dh-FBu" id="uGc-aV-Kud"/>
+                        <outlet property="mapView" destination="o3r-2s-jwy" id="ukD-jf-hHX"/>
+                        <outlet property="sceneView" destination="azz-PJ-fCR" id="mLS-96-H8O"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="133.5832083958021"/>
+        </scene>
+    </scenes>
+</document>
