@@ -114,11 +114,12 @@ extension ViewController: Controller {
 //        self.ref.child("history").setValue(["test": 123])
 //        let timestamp = NSDate().timeIntervalSince1970
 //        print(timestamp)
+        audioindex = 0
         let formatter = DateFormatter()
         // initially set the format based on your datepicker date
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let myString = formatter.string(from: Date())
-        var date = myString + randomKey
+        let date = myString + randomKey
         self.ref.child("history").child(UIDevice.current.identifierForVendor!.uuidString+"/"+date).setValue(["latlong": locationHistory, "system": systemgenerated])
 //        self.ref.child("History").child(randomKey).setValue(locationHistory)
         timer.invalidate()
@@ -200,9 +201,11 @@ extension ViewController: MessagePresenting {
                 speechUtterance = AVSpeechUtterance(string: string)
             }
             speechUtterance.rate = 0.4
-            speechSynthesizer.speak(speechUtterance)
+            if(audioindex != steps.count) {
+                speechSynthesizer.speak(speechUtterance)
+            }
             //            presentMessage(title: "Route", message: steps[audioindex].instructions)
-            if(audioindex<steps.count-1) {
+            if(audioindex<steps.count) {
                 audioindex+=1
             }
         }
