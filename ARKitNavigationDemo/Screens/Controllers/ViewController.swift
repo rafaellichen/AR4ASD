@@ -119,8 +119,7 @@ extension ViewController: Controller {
         // initially set the format based on your datepicker date
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let myString = formatter.string(from: Date())
-        let date = myString + randomKey
-        self.ref.child("history").child(UIDevice.current.identifierForVendor!.uuidString+"/"+date).setValue(["latlong": locationHistory, "system": systemgenerated])
+        self.ref.child("history").child(UIDevice.current.identifierForVendor!.uuidString+"/"+myString).setValue(["latlong": locationHistory, "system": systemgenerated])
 //        self.ref.child("History").child(randomKey).setValue(locationHistory)
         timer.invalidate()
     }
