@@ -69,7 +69,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             let position = SCNVector3.positionFromTransform(translation)
             let distance = baseNode.location.distance(from: startingLocation)
             DispatchQueue.main.async {
-                let scale = Float(distance)
+                let scale = Float(distance) * 2
                 baseNode.scale = SCNVector3(x: scale, y: scale, z: scale)
                 baseNode.anchor = ARAnchor(transform: translation)
                 baseNode.position = position
@@ -112,7 +112,14 @@ extension ViewController: Controller {
             systemgenerated.append(String(each.coordinate.latitude)+","+String(each.coordinate.longitude))
         }
 //        self.ref.child("history").setValue(["test": 123])
-        self.ref.child("history").child(UIDevice.current.identifierForVendor!.uuidString+"/"+randomKey).setValue(["latlong": locationHistory, "system": systemgenerated])
+//        let timestamp = NSDate().timeIntervalSince1970
+//        print(timestamp)
+        let formatter = DateFormatter()
+        // initially set the format based on your datepicker date
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let myString = formatter.string(from: Date())
+        var date = myString + randomKey
+        self.ref.child("history").child(UIDevice.current.identifierForVendor!.uuidString+"/"+date).setValue(["latlong": locationHistory, "system": systemgenerated])
 //        self.ref.child("History").child(randomKey).setValue(locationHistory)
         timer.invalidate()
     }
@@ -268,7 +275,7 @@ extension ViewController: MessagePresenting {
                 let distance = baseNode.location.distance(from: startingLocation)
                 DispatchQueue.main.async {
 //                    let scale = 100 / Float(distance)
-                    let scale = Float(distance)
+                    let scale = Float(distance) * 2
                     baseNode.scale = SCNVector3(x: scale, y: scale, z: scale)
                     baseNode.anchor = ARAnchor(transform: translation)
                     baseNode.position = position
