@@ -44,7 +44,7 @@ class BaseNode: SCNNode {
     func addNode(with radius: CGFloat, and color: UIColor, and text: String) {
         let sphereNode = createSphereNode(with: radius, color: color)
         let newText = SCNText(string: title, extrusionDepth: 0.05)
-        newText.font = UIFont (name: "AvenirNext-Medium", size: 1)
+        newText.font = UIFont (name: "AvenirNext-Medium", size: 2)
         newText.firstMaterial?.diffuse.contents = UIColor.red
         let _textNode = SCNNode(geometry: newText)
         let annotationNode = SCNNode()

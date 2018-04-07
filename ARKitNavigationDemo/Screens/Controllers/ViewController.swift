@@ -16,6 +16,7 @@ import AVFoundation
 import Firebase
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
+    var cnst: Float = 100
     var locationHistory: [String] = []
     var systemgenerated: [String] = []
     var type: ControllerType = .nav
@@ -36,6 +37,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private let configuration = ARWorldTrackingConfiguration()
     private var done: Bool = false
     var timer: Timer!
+    var timer2: Timer!
     let locationManager = CLLocationManager()
     var usercurrentlocation: CLLocationCoordinate2D!
     var audioindex = 0
@@ -69,7 +71,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             let position = SCNVector3.positionFromTransform(translation)
             let distance = baseNode.location.distance(from: startingLocation)
             DispatchQueue.main.async {
-                let scale = Float(distance) * 2
+                let scale = Float(distance)*self.cnst
                 baseNode.scale = SCNVector3(x: scale, y: scale, z: scale)
                 baseNode.anchor = ARAnchor(transform: translation)
                 baseNode.position = position
@@ -106,8 +108,8 @@ extension ViewController: Controller {
     @IBAction func resetButtonTapped(_ sender: Any) {
         delegate?.reset()
         TouchLabel.isHidden=false
-        let randomKey = ref.child("history").child(UIDevice.current.identifierForVendor!.uuidString).childByAutoId().key
-        print(randomKey)
+//        let randomKey = ref.child("history").child(UIDevice.current.identifierForVendor!.uuidString).childByAutoId().key
+//        print(randomKey)
         for each in locations {
             systemgenerated.append(String(each.coordinate.latitude)+","+String(each.coordinate.longitude))
         }
@@ -122,6 +124,7 @@ extension ViewController: Controller {
         self.ref.child("history").child(UIDevice.current.identifierForVendor!.uuidString+"/"+myString).setValue(["latlong": locationHistory, "system": systemgenerated])
 //        self.ref.child("History").child(randomKey).setValue(locationHistory)
         timer.invalidate()
+        timer2.invalidate()
     }
     
     private func setupLocationService() {
@@ -178,6 +181,8 @@ extension ViewController: MessagePresenting {
             }
         }
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(ViewController.update), userInfo: nil, repeats: true)
+        
+        timer2 = Timer.scheduledTimer(timeInterval: 15.0, target: self, selector: #selector(ViewController.update2), userInfo: nil, repeats: true)
 //        for i in steps {
 //            print("location: ",i.getLocation())
 //            print("instruction: ",i.instructions)
@@ -185,34 +190,42 @@ extension ViewController: MessagePresenting {
         
     }
     
-    @objc func update() {
-        let distanceInMeters = CLLocation(latitude: steps[audioindex].getLocation().coordinate.latitude, longitude: steps[audioindex].getLocation().coordinate.longitude).distance(from: CLLocation(latitude:usercurrentlocation.latitude, longitude:usercurrentlocation.longitude))
-        locationHistory.append(String(usercurrentlocation.latitude)+","+String(usercurrentlocation.longitude))
-        if(distanceInMeters < 25) {
+    @objc func update2() {
+        print(steps.count)
+        if(audioindex<steps.count && audioindex != steps.count-1) {
             let string = steps[audioindex].instructions
-            var string2 = ""
-            if(audioindex+1<steps.count) {
-                string2 = steps[audioindex+1].instructions
-            }
-            if(string2 != "") {
-                speechUtterance = AVSpeechUtterance(string: string+". Then, "+string2)
-            } else {
-                speechUtterance = AVSpeechUtterance(string: string)
-            }
+            speechUtterance = AVSpeechUtterance(string: string)
             speechUtterance.rate = 0.4
-            if(audioindex != steps.count) {
+            speechSynthesizer.speak(speechUtterance)
+        } else if(audioindex == steps.count-1) {
+            let string = "Proceed to your destination."
+            speechUtterance = AVSpeechUtterance(string: string)
+            speechUtterance.rate = 0.4
+            speechSynthesizer.speak(speechUtterance)
+        } else {
+            let string = "You have arrived."
+            speechUtterance = AVSpeechUtterance(string: string)
+            speechUtterance.rate = 0.4
+            speechSynthesizer.speak(speechUtterance)
+        }
+        
+    }
+    
+    @objc func update() {
+        print(audioindex)
+        if(audioindex<steps.count) {
+            let distanceInMeters = CLLocation(latitude: steps[audioindex].getLocation().coordinate.latitude, longitude: steps[audioindex].getLocation().coordinate.longitude).distance(from: CLLocation(latitude:usercurrentlocation.latitude, longitude:usercurrentlocation.longitude))
+            print(distanceInMeters)
+            locationHistory.append(String(usercurrentlocation.latitude)+","+String(usercurrentlocation.longitude))
+            if(distanceInMeters < 11) {
+                let string = steps[audioindex].instructions
+                speechUtterance = AVSpeechUtterance(string: string)
+                speechUtterance.rate = 0.4
                 speechSynthesizer.speak(speechUtterance)
-            }
-            //            presentMessage(title: "Route", message: steps[audioindex].instructions)
-            if(audioindex<steps.count) {
+//                presentMessage(title: "Route", message: steps[audioindex].instructions)
                 audioindex+=1
             }
         }
-//        else {
-//            print(distanceInMeters)
-//            print(audioindex, "/",steps.count-1)
-//            print("--------")
-//        }
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -277,7 +290,8 @@ extension ViewController: MessagePresenting {
                 let distance = baseNode.location.distance(from: startingLocation)
                 DispatchQueue.main.async {
 //                    let scale = 100 / Float(distance)
-                    let scale = Float(distance) * 2
+                    let scale = Float(distance)*self.cnst
+//                    print(scale)
                     baseNode.scale = SCNVector3(x: scale, y: scale, z: scale)
                     baseNode.anchor = ARAnchor(transform: translation)
                     baseNode.position = position
@@ -296,7 +310,7 @@ extension ViewController: MessagePresenting {
         let stepAnchor = ARAnchor(transform: locationTransform)
         let sphere = BaseNode(title: step.instructions, location: stepLocation)
         anchors.append(stepAnchor)
-        sphere.addNode(with: 0.5, and: .green, and: step.instructions)
+        sphere.addNode(with: 0.6, and: .green, and: step.instructions)
         sphere.location = stepLocation
         sphere.anchor = stepAnchor
         sceneView.session.add(anchor: stepAnchor)
@@ -308,9 +322,10 @@ extension ViewController: MessagePresenting {
     
     private func addSphere(for location: CLLocation) {
         let locationTransform = MatrixHelper.transformMatrix(for: matrix_identity_float4x4, originLocation: startingLocation, location: location)
+//        print(locationTransform)
         let stepAnchor = ARAnchor(transform: locationTransform)
         let sphere = BaseNode(title: "Title", location: location)
-        sphere.addSphere(with: 0.45, and: .blue)
+        sphere.addSphere(with: 0.6, and: .blue)
         anchors.append(stepAnchor)
         sphere.location = location
         sceneView.session.add(anchor: stepAnchor)

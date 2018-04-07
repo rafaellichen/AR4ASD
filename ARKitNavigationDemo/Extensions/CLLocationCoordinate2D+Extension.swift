@@ -53,7 +53,7 @@ extension CLLocationCoordinate2D: Equatable {
     
     static func getIntermediaryLocations(currentLocation: CLLocation, destinationLocation: CLLocation) -> [CLLocationCoordinate2D] {
         var distances = [CLLocationCoordinate2D]()
-        let metersIntervalPerNode: Float = 10
+        let metersIntervalPerNode: Float = 1
         var distance = Float(destinationLocation.distance(from: currentLocation))
         let bearing = currentLocation.bearingToLocationRadian(destinationLocation)
         while distance > 10 {
