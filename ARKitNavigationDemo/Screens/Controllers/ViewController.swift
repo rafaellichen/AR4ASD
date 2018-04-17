@@ -16,7 +16,7 @@ import AVFoundation
 import Firebase
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
-    var cnst: Float = 100
+    var cnst: Float = 1
     var locationHistory: [String] = []
     var systemgenerated: [String] = []
     var type: ControllerType = .nav
@@ -124,7 +124,8 @@ extension ViewController: Controller {
         self.ref.child("history").child(UIDevice.current.identifierForVendor!.uuidString+"/"+myString).setValue(["latlong": locationHistory, "system": systemgenerated])
 //        self.ref.child("History").child(randomKey).setValue(locationHistory)
         timer.invalidate()
-        timer2.invalidate()
+        timer = nil
+//        timer2.invalidate()
     }
     
     private func setupLocationService() {
@@ -182,7 +183,7 @@ extension ViewController: MessagePresenting {
         }
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(ViewController.update), userInfo: nil, repeats: true)
         
-        timer2 = Timer.scheduledTimer(timeInterval: 15.0, target: self, selector: #selector(ViewController.update2), userInfo: nil, repeats: true)
+//        timer2 = Timer.scheduledTimer(timeInterval: 15.0, target: self, selector: #selector(ViewController.update2), userInfo: nil, repeats: true)
 //        for i in steps {
 //            print("location: ",i.getLocation())
 //            print("instruction: ",i.instructions)
@@ -203,7 +204,7 @@ extension ViewController: MessagePresenting {
             speechUtterance.rate = 0.4
             speechSynthesizer.speak(speechUtterance)
         } else {
-            let string = "You have arrived."
+            let string = "You have arrived at your destination."
             speechUtterance = AVSpeechUtterance(string: string)
             speechUtterance.rate = 0.4
             speechSynthesizer.speak(speechUtterance)
@@ -213,7 +214,13 @@ extension ViewController: MessagePresenting {
     
     @objc func update() {
         print(audioindex)
-        if(audioindex<steps.count) {
+        if(audioindex == 0) {
+            let string = steps[audioindex].instructions
+            speechUtterance = AVSpeechUtterance(string: string)
+            speechUtterance.rate = 0.4
+            speechSynthesizer.speak(speechUtterance)
+            audioindex+=1
+        } else if(audioindex<steps.count) {
             let distanceInMeters = CLLocation(latitude: steps[audioindex].getLocation().coordinate.latitude, longitude: steps[audioindex].getLocation().coordinate.longitude).distance(from: CLLocation(latitude:usercurrentlocation.latitude, longitude:usercurrentlocation.longitude))
             print(distanceInMeters)
             locationHistory.append(String(usercurrentlocation.latitude)+","+String(usercurrentlocation.longitude))
