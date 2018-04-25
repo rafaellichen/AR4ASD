@@ -16,7 +16,7 @@ import AVFoundation
 import Firebase
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
-    var cnst: Float = 1
+    var cnst: Float = 2
     var locationHistory: [String] = []
     var systemgenerated: [String] = []
     var type: ControllerType = .nav
@@ -37,7 +37,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private let configuration = ARWorldTrackingConfiguration()
     private var done: Bool = false
     var timer: Timer!
-    var timer2: Timer!
+//    var timer2: Timer!
     let locationManager = CLLocationManager()
     var usercurrentlocation: CLLocationCoordinate2D!
     var audioindex = 0
@@ -45,7 +45,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var speechUtterance: AVSpeechUtterance = AVSpeechUtterance(string: "")
     var ref: DatabaseReference! = Database.database().reference()
     
-//    private var locationUpdates: Int = 0 {
+    //    private var locationUpdates: Int = 0 {
 //        didSet {
 //            if locationUpdates >= 4 {
 //                updateNodes = false
@@ -90,6 +90,14 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         TouchLabel.layer.masksToBounds = true
         TouchLabel.textAlignment = .center
         mapView.delegate = self
+        let latDelta:CLLocationDegrees = 0.0005
+        let lonDelta:CLLocationDegrees = 0.0005
+        let span = MKCoordinateSpanMake(latDelta, lonDelta)
+//        print(mapView.centerCoordinate)
+        let location = CLLocationCoordinate2DMake(mapView.centerCoordinate.latitude, mapView.centerCoordinate.longitude)
+        let region = MKCoordinateRegionMake(location, span)
+        mapView.setRegion(region, animated: false)
+        
         setupScene()
         setupLocationService()
         setupNavigation()
@@ -107,6 +115,15 @@ extension ViewController: Controller {
     
     @IBAction func resetButtonTapped(_ sender: Any) {
         delegate?.reset()
+        sceneView.session.pause()
+        sceneView.scene.rootNode.enumerateChildNodes {
+            (node, stop) in node.removeFromParentNode()
+        }
+        timer.invalidate()
+        timer = nil
+//        timer2.invalidate()
+        locationHistory.removeAll()
+        systemgenerated.removeAll()
         TouchLabel.isHidden=false
 //        let randomKey = ref.child("history").child(UIDevice.current.identifierForVendor!.uuidString).childByAutoId().key
 //        print(randomKey)
@@ -123,9 +140,6 @@ extension ViewController: Controller {
         let myString = formatter.string(from: Date())
         self.ref.child("history").child(UIDevice.current.identifierForVendor!.uuidString+"/"+myString).setValue(["latlong": locationHistory, "system": systemgenerated])
 //        self.ref.child("History").child(randomKey).setValue(locationHistory)
-        timer.invalidate()
-        timer = nil
-//        timer2.invalidate()
     }
     
     private func setupLocationService() {
@@ -173,7 +187,7 @@ extension ViewController: MessagePresenting {
             startingLocation = CLLocation.bestLocationEstimate(locations: updatedLocations)
             if (startingLocation != nil && mapView.annotations.count == 0) && done == true {
                 DispatchQueue.main.async {
-                    self.centerMapInInitialCoordinates()
+//                    self.centerMapInInitialCoordinates()
                     self.showPointsOfInterestInMap(currentLegs: self.currentLegs)
                     self.addAnnotations()
                     self.addAnchors(steps: self.steps)
@@ -181,7 +195,7 @@ extension ViewController: MessagePresenting {
                 }
             }
         }
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(ViewController.update), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(ViewController.update), userInfo: nil, repeats: true)
         
 //        timer2 = Timer.scheduledTimer(timeInterval: 15.0, target: self, selector: #selector(ViewController.update2), userInfo: nil, repeats: true)
 //        for i in steps {
@@ -239,6 +253,14 @@ extension ViewController: MessagePresenting {
         if let location = locations.first {
             usercurrentlocation=location.coordinate
         }
+        let latitude:CLLocationDegrees = usercurrentlocation.latitude
+        let longitude:CLLocationDegrees = usercurrentlocation.longitude
+        let latDelta:CLLocationDegrees = 0.0005
+        let lonDelta:CLLocationDegrees = 0.0005
+        let span = MKCoordinateSpanMake(latDelta, lonDelta)
+        let location = CLLocationCoordinate2DMake(latitude, longitude)
+        let region = MKCoordinateRegionMake(location, span)
+        mapView.setRegion(region, animated: false)
     }
     
     private func showPointsOfInterestInMap(currentLegs: [[CLLocationCoordinate2D]]) {
@@ -332,7 +354,7 @@ extension ViewController: MessagePresenting {
 //        print(locationTransform)
         let stepAnchor = ARAnchor(transform: locationTransform)
         let sphere = BaseNode(title: "Title", location: location)
-        sphere.addSphere(with: 0.6, and: .blue)
+        sphere.addSphere(with: 0.3, and: .blue)
         anchors.append(stepAnchor)
         sphere.location = location
         sceneView.session.add(anchor: stepAnchor)
@@ -373,7 +395,7 @@ extension ViewController: LocationServiceDelegate {
             updatedLocations.append(currentLocation)
             updateNodePosition()
         }
-        centerMapInInitialCoordinates()
+//        centerMapInInitialCoordinates()
     }
     
     func trackingLocationDidFail(with error: Error) {

@@ -25,6 +25,7 @@ final class StartViewController: UIViewController, UIGestureRecognizerDelegate, 
     var startingLocation: CLLocation!
     var press: UILongPressGestureRecognizer!
     private var steps: [MKRouteStep] = []
+    private var waypoints: [CLLocationCoordinate2D] = []
     var autoUpdate = true
     var destinationLocation: CLLocationCoordinate2D! {
         didSet {
@@ -93,11 +94,15 @@ final class StartViewController: UIViewController, UIGestureRecognizerDelegate, 
         DispatchQueue.global(qos: .default).async {
             
             if self.destinationLocation != nil {
-                self.navigationService.getDirections(destinationLocation: self.destinationLocation, request: MKDirectionsRequest()) { steps in
+                self.navigationService.getDirections(destinationLocation: self.destinationLocation, request: MKDirectionsRequest()) { steps, waypoints in
                     for step in steps {
                         self.annotations.append(POIAnnotation(coordinate: step.getLocation().coordinate, name: "N " + step.instructions))
                     }
+                    for point in waypoints {
+                        self.annotations.append(POIAnnotation(coordinate: point, name: ""))
+                    }
                     self.steps.append(contentsOf: steps)
+                    self.waypoints.append(contentsOf: waypoints)
                     group.leave()
                 }
             }
@@ -110,19 +115,21 @@ final class StartViewController: UIViewController, UIGestureRecognizerDelegate, 
     }
     
     private func getLocationData() {
-        
-        for (index, step) in steps.enumerated() {
-            setTripLegFromStep(step, and: index)
+//        for (index, step) in steps.enumerated() {
+//            setTripLegFromStep(step, and: index)
+//        }
+        for(index, point) in waypoints.enumerated() {
+            setTripLegFromStep(point, and: index)
         }
-        
+        print(self.currentTripLegs.count)
         for leg in currentTripLegs {
             update(intermediary: leg)
         }
+//        currentTripLegs = [waypoints]
         
         centerMapInInitialCoordinates()
 //        showPointsOfInterestInMap(currentTripLegs: currentTripLegs)
         addMapAnnotations()
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             let alertController = UIAlertController(title: "", message: "Start Navigation?", preferredStyle: .alert)
             
@@ -133,6 +140,7 @@ final class StartViewController: UIViewController, UIGestureRecognizerDelegate, 
                     self.locations.removeAll()
                     self.currentTripLegs.removeAll()
                     self.steps.removeAll()
+                    self.waypoints.removeAll()
                     self.mapView.removeAnnotations(self.mapView.annotations)
                     self.mapView.removeOverlays(self.mapView.overlays)
                 }
@@ -175,30 +183,50 @@ final class StartViewController: UIViewController, UIGestureRecognizerDelegate, 
     }
     
     // Determines whether leg is first leg or not and routes logic accordingly
-    private func setTripLegFromStep(_ tripStep: MKRouteStep, and index: Int) {
+    private func setTripLegFromStep(_ tripStep: CLLocationCoordinate2D, and index: Int) {
         if index > 0 {
             getTripLeg(for: index, and: tripStep)
         } else {
             getInitialLeg(for: tripStep)
         }
     }
+//    private func setTripLegFromStep(_ tripStep: MKRouteStep, and index: Int) {
+//        if index > 0 {
+//            getTripLeg(for: index, and: tripStep)
+//        } else {
+//            getInitialLeg(for: tripStep)
+//        }
+//    }
     
     // Calculates intermediary coordinates for route step that is not first
-    private func getTripLeg(for index: Int, and tripStep: MKRouteStep) {
+    private func getTripLeg(for index: Int, and tripStep: CLLocationCoordinate2D) {
         let previousIndex = index - 1
-        let previousStep = steps[previousIndex]
-        let previousLocation = CLLocation(latitude: previousStep.polyline.coordinate.latitude, longitude: previousStep.polyline.coordinate.longitude)
-        let nextLocation = CLLocation(latitude: tripStep.polyline.coordinate.latitude, longitude: tripStep.polyline.coordinate.longitude)
+        let previousStep = waypoints[previousIndex]
+        let previousLocation = CLLocation(latitude: previousStep.latitude, longitude: previousStep.longitude)
+        let nextLocation = CLLocation(latitude: tripStep.latitude, longitude: tripStep.longitude)
         let intermediarySteps = CLLocationCoordinate2D.getIntermediaryLocations(currentLocation: previousLocation, destinationLocation: nextLocation)
         currentTripLegs.append(intermediarySteps)
     }
+//    private func getTripLeg(for index: Int, and tripStep: MKRouteStep) {
+//        let previousIndex = index - 1
+//        let previousStep = steps[previousIndex]
+//        let previousLocation = CLLocation(latitude: previousStep.polyline.coordinate.latitude, longitude: previousStep.polyline.coordinate.longitude)
+//        let nextLocation = CLLocation(latitude: tripStep.polyline.coordinate.latitude, longitude: tripStep.polyline.coordinate.longitude)
+//        let intermediarySteps = CLLocationCoordinate2D.getIntermediaryLocations(currentLocation: previousLocation, destinationLocation: nextLocation)
+//        currentTripLegs.append(intermediarySteps)
+//    }
     
     // Calculates intermediary coordinates for first route step
-    private func getInitialLeg(for tripStep: MKRouteStep) {
-        let nextLocation = CLLocation(latitude: tripStep.polyline.coordinate.latitude, longitude: tripStep.polyline.coordinate.longitude)
+    private func getInitialLeg(for tripStep: CLLocationCoordinate2D) {
+        let nextLocation = CLLocation(latitude: tripStep.latitude, longitude: tripStep.longitude)
         let intermediaries = CLLocationCoordinate2D.getIntermediaryLocations(currentLocation: startingLocation, destinationLocation: nextLocation)
         currentTripLegs.append(intermediaries)
     }
+//    private func getInitialLeg(for tripStep: MKRouteStep) {
+//        let nextLocation = CLLocation(latitude: tripStep.polyline.coordinate.latitude, longitude: tripStep.polyline.coordinate.longitude)
+//        let intermediaries = CLLocationCoordinate2D.getIntermediaryLocations(currentLocation: startingLocation, destinationLocation: nextLocation)
+//        currentTripLegs.append(intermediaries)
+//    }
     
     // Prefix N is just a way to grab step annotations, could definitely get refactored
     private func addMapAnnotations() {
