@@ -1,6 +1,7 @@
 # AR4ASD
 Augmented Reality for People with Autism
 - [x] Visited Goodwill industries for suggestions
+- [x] Improved route accuracy rate and path planning
 - [ ] Fix scale and accuracy issues
 
 ## Added & Improved features:
