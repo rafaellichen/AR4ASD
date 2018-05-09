@@ -7,5 +7,5 @@ Augmented Reality for People with Autism
 - [x] Added voice feedback
 - [x] Proactively refresh navigational marks (calibrations)
 - [x] Real-time current location update
-- [x] Lowered navigational marks to "ground level"
+- [ ] Lowered navigational marks to "ground level"
 ###### Referenced and improved from: https://github.com/chriswebb09/ARKitNavigationDemo
