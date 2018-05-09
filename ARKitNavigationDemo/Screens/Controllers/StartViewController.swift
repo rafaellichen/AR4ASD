@@ -2,8 +2,8 @@
 //  StartViewController.swift
 //  ARKitDemoApp
 //
-//  Created by Christopher Webb-Orenstein on 9/15/17.
-//  Copyright © 2017 Christopher Webb-Orenstein. All rights reserved.
+//  Modified by Rafael Li Chen on 5/9/2018
+//  Copyright © 2017 Rafael Li Chen. All rights reserved.
 //
 
 import UIKit

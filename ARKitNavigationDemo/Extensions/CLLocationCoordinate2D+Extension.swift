@@ -56,6 +56,7 @@ extension CLLocationCoordinate2D: Equatable {
         let metersIntervalPerNode: Float = 1
         var distance = Float(destinationLocation.distance(from: currentLocation))
         let bearing = currentLocation.bearingToLocationRadian(destinationLocation)
+        // try without bearing
         while distance > 1 {
             distance -= metersIntervalPerNode
             let newLocation = currentLocation.coordinate.coordinate(with: Double(bearing), and: Double(distance))
