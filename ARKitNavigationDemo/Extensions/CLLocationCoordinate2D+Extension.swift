@@ -2,9 +2,8 @@
 //  CLLocationCoordinate2D.swift
 //  ARKitDemoApp
 //
-//  Created by Christopher Webb-Orenstein on 8/29/17.
-//  Copyright © 2017 Christopher Webb-Orenstein. All rights reserved.
-//
+//  Modified by Rafael Li Chen on 5/9/2018
+//  Copyright © 2017 Rafael Li Chen. All rights reserved.
 //
 
 import CoreLocation
@@ -53,11 +52,11 @@ extension CLLocationCoordinate2D: Equatable {
     
     static func getIntermediaryLocations(currentLocation: CLLocation, destinationLocation: CLLocation) -> [CLLocationCoordinate2D] {
         var distances = [CLLocationCoordinate2D]()
-        let metersIntervalPerNode: Float = 1
+        let metersIntervalPerNode: Float = 3
         var distance = Float(destinationLocation.distance(from: currentLocation))
         let bearing = currentLocation.bearingToLocationRadian(destinationLocation)
         // try without bearing
-        while distance > 1 {
+        while distance > 4 {
             distance -= metersIntervalPerNode
             let newLocation = currentLocation.coordinate.coordinate(with: Double(bearing), and: Double(distance))
             if !distances.contains(newLocation) {
