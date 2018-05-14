@@ -16,4 +16,14 @@ Augmented Reality for People with Autism
 
 <img src="https://cl.ly/rXuX/IMG_0657.PNG" width="400"/> <img src="https://cl.ly/rXtF/IMG_0656.PNG" width="400"/>
 
-###### Referenced and improved from: https://github.com/chriswebb09/ARKitNavigationDemo
+||||
+|-|-|-|
+|Team Mmember|Rafael Li Chen|Department of Computer Science, The City College of New York|
+|Team Member|Xinyu Xiong|Department of Computer Science, The City College of New York|
+|Team Member|Yuxuan Huang|Department of Computer Science, The City College of New York|
+|Advisor|Lidong Chen||
+|Faculty Advisor|Professor Zhigang Zhu|Department of Computer Science, The City College of New York|
+|Industrial Mentor|Celina M. Cavalluzzi|Goodwill Industries NY/NJ|
+|Funder|NYSID (CREATE)||
+
+##### Referenced and improved from: https://github.com/chriswebb09/ARKitNavigationDemo
