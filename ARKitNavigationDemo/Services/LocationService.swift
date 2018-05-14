@@ -25,17 +25,7 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
         locationManager = CLLocationManager()
         guard let locationManager = locationManager else { return }
         
-        
         requestAuthorization(locationManager: locationManager)
-        
-//        switch(CLLocationManager.authorizationStatus()) {
-//        case .authorizedAlways, .authorizedWhenInUse:
-//            startUpdatingLocation(locationManager: locationManager)
-//            lastLocation = locationManager.location
-//        case .notDetermined, .restricted, .denied:
-//            stopUpdatingLocation(locationManager: locationManager)
-//            locationManager.requestWhenInUseAuthorization()
-//        }
         
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locationManager.distanceFilter = kCLDistanceFilterNone

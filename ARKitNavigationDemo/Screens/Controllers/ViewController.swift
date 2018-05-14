@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  ARKitDemoApp
 //
-//  Modified by Rafael Li Chen on 5/9/2018
+//  Modified by Rafael Li Chen on 5/13/2018
 //  Copyright © 2017 Rafael Li Chen. All rights reserved.
 //
 
@@ -37,21 +37,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     private let configuration = ARWorldTrackingConfiguration()
     private var done: Bool = false
     var timer: Timer!
-//    var timer2: Timer!
     let locationManager = CLLocationManager()
     var usercurrentlocation: CLLocationCoordinate2D!
     var audioindex = 0
     let speechSynthesizer = AVSpeechSynthesizer()
     var speechUtterance: AVSpeechUtterance = AVSpeechUtterance(string: "")
     var ref: DatabaseReference! = Database.database().reference()
-    
-    //    private var locationUpdates: Int = 0 {
-//        didSet {
-//            if locationUpdates >= 4 {
-//                updateNodes = false
-//            }
-//        }
-//    }
+
     @IBOutlet weak var TouchLabel: UILabel!
     
     @IBAction func Calibrate() {
@@ -93,7 +85,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let latDelta:CLLocationDegrees = 0.0005
         let lonDelta:CLLocationDegrees = 0.0005
         let span = MKCoordinateSpanMake(latDelta, lonDelta)
-//        print(mapView.centerCoordinate)
         let location = CLLocationCoordinate2DMake(mapView.centerCoordinate.latitude, mapView.centerCoordinate.longitude)
         let region = MKCoordinateRegionMake(location, span)
         mapView.setRegion(region, animated: false)
@@ -121,7 +112,6 @@ extension ViewController: Controller {
         }
         timer.invalidate()
         timer = nil
-//        timer2.invalidate()
         locationHistory.removeAll()
         systemgenerated.removeAll()
         TouchLabel.isHidden=false
@@ -130,16 +120,12 @@ extension ViewController: Controller {
         for each in locations {
             systemgenerated.append(String(each.coordinate.latitude)+","+String(each.coordinate.longitude))
         }
-//        self.ref.child("history").setValue(["test": 123])
-//        let timestamp = NSDate().timeIntervalSince1970
-//        print(timestamp)
         audioindex = 0
         let formatter = DateFormatter()
         // initially set the format based on your datepicker date
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let myString = formatter.string(from: Date())
         self.ref.child("history").child(UIDevice.current.identifierForVendor!.uuidString+"/"+myString).setValue(["latlong": locationHistory, "system": systemgenerated])
-//        self.ref.child("History").child(randomKey).setValue(locationHistory)
     }
     
     private func setupLocationService() {
@@ -176,6 +162,7 @@ extension ViewController: MessagePresenting {
     func runSession() {
         configuration.worldAlignment = .gravityAndHeading
         sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+//        sceneView.session.run(configuration)
     }
     
     // Render nodes when user touches screen
@@ -196,13 +183,6 @@ extension ViewController: MessagePresenting {
             }
         }
         timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(ViewController.update), userInfo: nil, repeats: true)
-        
-//        timer2 = Timer.scheduledTimer(timeInterval: 15.0, target: self, selector: #selector(ViewController.update2), userInfo: nil, repeats: true)
-//        for i in steps {
-//            print("location: ",i.getLocation())
-//            print("instruction: ",i.instructions)
-//        }
-        
     }
     
     @objc func update2() {
@@ -289,26 +269,6 @@ extension ViewController: MessagePresenting {
     }
     
     private func updateNodePosition() {
-//        if updateNodes {
-//            locationUpdates += 1
-//            SCNTransaction.begin()
-//            SCNTransaction.animationDuration = 0.5
-//            if updatedLocations.count > 0 {
-//                startingLocation = CLLocation.bestLocationEstimate(locations: updatedLocations)
-//                for baseNode in nodes {
-//                    let translation = MatrixHelper.transformMatrix(for: matrix_identity_float4x4, originLocation: startingLocation, location: baseNode.location)
-//                    let position = SCNVector3.positionFromTransform(translation)
-//                    let distance = baseNode.location.distance(from: startingLocation)
-//                    DispatchQueue.main.async {
-//                        let scale = 100 / Float(distance)
-//                        baseNode.scale = SCNVector3(x: scale, y: scale, z: scale)
-//                        baseNode.anchor = ARAnchor(transform: translation)
-//                        baseNode.position = position
-//                    }
-//                }
-//            }
-//            SCNTransaction.commit()
-//        }
         SCNTransaction.begin()
         SCNTransaction.animationDuration = 0.5
         if updatedLocations.count > 0 {
@@ -318,9 +278,7 @@ extension ViewController: MessagePresenting {
                 let position = SCNVector3.positionFromTransform(translation)
                 let distance = baseNode.location.distance(from: startingLocation)
                 DispatchQueue.main.async {
-//                    let scale = 100 / Float(distance)
                     let scale = Float(distance)*self.cnst
-//                    print(scale)
                     baseNode.scale = SCNVector3(x: scale, y: scale, z: scale)
                     baseNode.anchor = ARAnchor(transform: translation)
                     baseNode.position = position
@@ -351,7 +309,6 @@ extension ViewController: MessagePresenting {
     
     private func addSphere(for location: CLLocation) {
         let locationTransform = MatrixHelper.transformMatrix(for: matrix_identity_float4x4, originLocation: startingLocation, location: location)
-//        print(locationTransform)
         let stepAnchor = ARAnchor(transform: locationTransform)
         let sphere = BaseNode(title: "Title", location: location)
         sphere.addSphere(with: 0.3, and: .blue)
@@ -395,7 +352,6 @@ extension ViewController: LocationServiceDelegate {
             updatedLocations.append(currentLocation)
             updateNodePosition()
         }
-//        centerMapInInitialCoordinates()
     }
     
     func trackingLocationDidFail(with error: Error) {
@@ -404,14 +360,6 @@ extension ViewController: LocationServiceDelegate {
 }
 
 extension ViewController: MKMapViewDelegate {
-    
-//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//        let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "annotationView") ?? MKAnnotationView()
-//        annotationView.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-//        annotationView.canShowCallout = true
-//        return annotationView
-//
-//    }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if overlay is MKCircle {

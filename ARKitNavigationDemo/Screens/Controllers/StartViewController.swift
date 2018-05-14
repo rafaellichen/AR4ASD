@@ -2,7 +2,7 @@
 //  StartViewController.swift
 //  ARKitDemoApp
 //
-//  Modified by Rafael Li Chen on 5/9/2018
+//  Modified by Rafael Li Chen and Lidong Chen on 5/13/2018
 //  Copyright © 2017 Rafael Li Chen. All rights reserved.
 //
 
@@ -115,9 +115,6 @@ final class StartViewController: UIViewController, UIGestureRecognizerDelegate, 
     }
     
     private func getLocationData() {
-//        for (index, step) in steps.enumerated() {
-//            setTripLegFromStep(step, and: index)
-//        }
         for(index, point) in waypoints.enumerated() {
             setTripLegFromStep(point, and: index)
         }
@@ -125,10 +122,8 @@ final class StartViewController: UIViewController, UIGestureRecognizerDelegate, 
         for leg in currentTripLegs {
             update(intermediary: leg)
         }
-//        currentTripLegs = [waypoints]
         
-        centerMapInInitialCoordinates()
-//        showPointsOfInterestInMap(currentTripLegs: currentTripLegs)
+//        centerMapInInitialCoordinates()
         addMapAnnotations()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             let alertController = UIAlertController(title: "", message: "Start Navigation?", preferredStyle: .alert)
@@ -158,11 +153,6 @@ final class StartViewController: UIViewController, UIGestureRecognizerDelegate, 
         
     }
     
-    // Gets coordinates between two locations at set intervals
-    private func setLeg(from previous: CLLocation, to next: CLLocation) -> [CLLocationCoordinate2D] {
-        return CLLocationCoordinate2D.getIntermediaryLocations(currentLocation: previous, destinationLocation: next)
-    }
-    
     // Add POI dots to map
     private func showPointsOfInterestInMap(currentTripLegs: [[CLLocationCoordinate2D]]) {
         mapView.removeAnnotations(mapView.annotations)
@@ -190,13 +180,6 @@ final class StartViewController: UIViewController, UIGestureRecognizerDelegate, 
             getInitialLeg(for: tripStep)
         }
     }
-//    private func setTripLegFromStep(_ tripStep: MKRouteStep, and index: Int) {
-//        if index > 0 {
-//            getTripLeg(for: index, and: tripStep)
-//        } else {
-//            getInitialLeg(for: tripStep)
-//        }
-//    }
     
     // Calculates intermediary coordinates for route step that is not first
     private func getTripLeg(for index: Int, and tripStep: CLLocationCoordinate2D) {
@@ -207,14 +190,7 @@ final class StartViewController: UIViewController, UIGestureRecognizerDelegate, 
         let intermediarySteps = CLLocationCoordinate2D.getIntermediaryLocations(currentLocation: previousLocation, destinationLocation: nextLocation)
         currentTripLegs.append(intermediarySteps)
     }
-//    private func getTripLeg(for index: Int, and tripStep: MKRouteStep) {
-//        let previousIndex = index - 1
-//        let previousStep = steps[previousIndex]
-//        let previousLocation = CLLocation(latitude: previousStep.polyline.coordinate.latitude, longitude: previousStep.polyline.coordinate.longitude)
-//        let nextLocation = CLLocation(latitude: tripStep.polyline.coordinate.latitude, longitude: tripStep.polyline.coordinate.longitude)
-//        let intermediarySteps = CLLocationCoordinate2D.getIntermediaryLocations(currentLocation: previousLocation, destinationLocation: nextLocation)
-//        currentTripLegs.append(intermediarySteps)
-//    }
+
     
     // Calculates intermediary coordinates for first route step
     private func getInitialLeg(for tripStep: CLLocationCoordinate2D) {
@@ -222,11 +198,6 @@ final class StartViewController: UIViewController, UIGestureRecognizerDelegate, 
         let intermediaries = CLLocationCoordinate2D.getIntermediaryLocations(currentLocation: startingLocation, destinationLocation: nextLocation)
         currentTripLegs.append(intermediaries)
     }
-//    private func getInitialLeg(for tripStep: MKRouteStep) {
-//        let nextLocation = CLLocation(latitude: tripStep.polyline.coordinate.latitude, longitude: tripStep.polyline.coordinate.longitude)
-//        let intermediaries = CLLocationCoordinate2D.getIntermediaryLocations(currentLocation: startingLocation, destinationLocation: nextLocation)
-//        currentTripLegs.append(intermediaries)
-//    }
     
     // Prefix N is just a way to grab step annotations, could definitely get refactored
     private func addMapAnnotations() {
@@ -265,13 +236,6 @@ extension StartViewController: LocationServiceDelegate, MessagePresenting, Mapab
 }
 
 extension StartViewController: MKMapViewDelegate {
-    
-//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//        let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "annotationView") ?? MKAnnotationView()
-//        annotationView.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-//        annotationView.canShowCallout = true
-//        return annotationView
-//    }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         if overlay is MKCircle {

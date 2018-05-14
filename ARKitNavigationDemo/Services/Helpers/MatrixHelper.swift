@@ -2,8 +2,8 @@
 //  MatrixHelper.swift
 //  ARKitDemoApp
 //
-//  Created by Christopher Webb-Orenstein on 8/29/17.
-//  Copyright © 2017 Christopher Webb-Orenstein. All rights reserved.
+//  Modified by Rafael Li Chen and Lidong Chen on 5/13/2018
+//  Copyright © 2017 Rafael Li Chen. All rights reserved.
 //
 
 import Foundation
@@ -44,7 +44,7 @@ class MatrixHelper {
     static func transformMatrix(for matrix: simd_float4x4, originLocation: CLLocation, location: CLLocation) -> simd_float4x4 {
         let distance = Float(location.distance(from: originLocation))
         let bearing = originLocation.bearingToLocationRadian(location)
-        let position = vector_float4(0.0, 0.0, -distance, 0.0)
+        let position = vector_float4(0.0, -10, -distance, 0.0)
         let translationMatrix = MatrixHelper.translationMatrix(with: matrix_identity_float4x4, for: position)
         let rotationMatrix = MatrixHelper.rotateAroundY(with: matrix_identity_float4x4, for: Float(bearing))
         let transformMatrix = simd_mul(rotationMatrix, translationMatrix)

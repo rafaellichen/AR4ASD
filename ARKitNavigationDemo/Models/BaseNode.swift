@@ -2,8 +2,8 @@
 //  BaseNode.swift
 //  ARKitDemoApp
 //
-//  Created by Christopher Webb-Orenstein on 8/27/17.
-//  Copyright © 2017 Christopher Webb-Orenstein. All rights reserved.
+//  Modified by Rafael Li Chen and Lidong Chen on 5/13/2018
+//  Copyright © 2017 Rafael Li Chen. All rights reserved.
 //
 
 import SceneKit
@@ -21,7 +21,7 @@ class BaseNode: SCNNode {
         self.title = title
         super.init()
         let billboardConstraint = SCNBillboardConstraint()
-        billboardConstraint.freeAxes = SCNBillboardAxis.Y
+//        billboardConstraint.freeAxes = SCNBillboardAxis.Y
         constraints = [billboardConstraint]
     }
     

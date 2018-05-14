@@ -2,7 +2,7 @@
 //  CLLocationCoordinate2D.swift
 //  ARKitDemoApp
 //
-//  Modified by Rafael Li Chen on 5/9/2018
+//  Modified by Rafael Li Chen and Lidong Chen on 5/13/2018
 //  Copyright © 2017 Rafael Li Chen. All rights reserved.
 //
 
@@ -49,19 +49,16 @@ extension CLLocationCoordinate2D: Equatable {
         let lon2 = lon1 + atan2(sin(bearing) * sin(distRadiansLong) * cos(lat1), cos(distRadiansLong) - sin(lat1) * sin(lat2))
         return CLLocationCoordinate2D(latitude: lat2.toDegrees(), longitude: lon2.toDegrees())
     }
-    
+
     static func getIntermediaryLocations(currentLocation: CLLocation, destinationLocation: CLLocation) -> [CLLocationCoordinate2D] {
         var distances = [CLLocationCoordinate2D]()
-        let metersIntervalPerNode: Float = 3
-        var distance = Float(destinationLocation.distance(from: currentLocation))
-        let bearing = currentLocation.bearingToLocationRadian(destinationLocation)
-        // try without bearing
-        while distance > 4 {
-            distance -= metersIntervalPerNode
-            let newLocation = currentLocation.coordinate.coordinate(with: Double(bearing), and: Double(distance))
-            if !distances.contains(newLocation) {
-                distances.append(newLocation)
-            }
+        let distance = Float(destinationLocation.distance(from: currentLocation))
+        var newLocation = CLLocationCoordinate2D()
+        let InterPoint_Num = Int(floor(distance))
+        for index in 1...InterPoint_Num {
+            newLocation.latitude = currentLocation.coordinate.latitude + (destinationLocation.coordinate.latitude - currentLocation.coordinate.latitude) / Double(ceil(distance)) * Double(index)
+            newLocation.longitude = currentLocation.coordinate.longitude + (destinationLocation.coordinate.longitude - currentLocation.coordinate.longitude) / Double(ceil(distance)) * Double(index)
+            distances.append(newLocation)
         }
         return distances
     }

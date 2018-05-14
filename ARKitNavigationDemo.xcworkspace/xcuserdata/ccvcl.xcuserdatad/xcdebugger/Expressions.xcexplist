@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "CLLocationCoordinate2D.coordinate(with:and:):CLLocationCoordinate2D+Extension.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "LocationConstants.metersPerRadianLat">
+            </PersistentString>
+            <PersistentString
+               value = "LocationConstants.metersPerRadianLon">
+            </PersistentString>
+            <PersistentString
+               value = "LocationConstants">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "StartViewController.update(intermediary:):StartViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "annotations">
+            </PersistentString>
+            <PersistentString
+               value = "waypoints">
+            </PersistentString>
+            <PersistentString
+               value = "self.locations">
+            </PersistentString>
+            <PersistentString
+               value = "startingLocation!">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "NavigationControllerCoordinator.type.didset:NavigationControllerCoordinator.swift">
+      </ContextState>
+      <ContextState
+         contextName = "StartViewController.getLocationData():StartViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "steps">
+            </PersistentString>
+            <PersistentString
+               value = "currentTripLegs">
+            </PersistentString>
+            <PersistentString
+               value = "waypoints">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in StartViewController.setupNavigation():StartViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "annotations">
+            </PersistentString>
+            <PersistentString
+               value = "currentTripLegs">
+            </PersistentString>
+            <PersistentString
+               value = "locations">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.updateNodePosition():ViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "StartViewController.getTripLeg(for:and:):StartViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "currentTripLegs">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in NavigationService.getDirections(destinationLocation:request:completion:):NavigationService.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "response.routes">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static MatrixHelper.transformMatrix(for:originLocation:location:):MatrixHelper.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "originLocation.coordinate">
+            </PersistentString>
+            <PersistentString
+               value = "translationMatrix[0][3]">
+            </PersistentString>
+            <PersistentString
+               value = "location.coordinate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in ViewController.updateNodePosition():ViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "MainCoordinator.transitionCoordinator(type:):MainCoordinator.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "locationData">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "StartViewController.getInitialLeg(for:):StartViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "currentTripLegs">
+            </PersistentString>
+            <PersistentString
+               value = "startingLocation">
+            </PersistentString>
+            <PersistentString
+               value = "waypoints">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "static CLLocationCoordinate2D.getIntermediaryLocations(currentLocation:destinationLocation:):CLLocationCoordinate2D+Extension.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.currentLocation.coordinate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "NavigationService.getDirections(destinationLocation:request:completion:):NavigationService.swift">
+      </ContextState>
+      <ContextState
+         contextName = "StartViewController.handleMapTap(gesture:):StartViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.viewDidLoad():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "mapView.centerCoordinate">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
