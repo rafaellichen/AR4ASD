@@ -18,7 +18,7 @@ Augmented Reality for People with Autism
 
 ||||
 |-|-|-|
-|Team Mmember|Rafael Li Chen|Department of Computer Science, The City College of New York|
+|Team Leader|Rafael Li Chen|Department of Computer Science, The City College of New York|
 |Team Member|Xinyu Xiong|Department of Computer Science, The City College of New York|
 |Team Member|Yuxuan Huang|Department of Computer Science, The City College of New York|
 |Advisor|Lidong Chen||
