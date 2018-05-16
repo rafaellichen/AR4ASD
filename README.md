@@ -14,6 +14,8 @@ Augmented Reality for People with Autism
 - [ ] Lowered navigational marks to "ground level"
 - [ ] Fix scale and accuracy issues
 
+YouTube Demo: https://www.youtube.com/watch?v=uIKPubBTKG8 (Old)
+
 <img src="https://cl.ly/rXuX/IMG_0657.PNG" width="400"/> <img src="https://cl.ly/rXtF/IMG_0656.PNG" width="400"/>
 
 ||||
