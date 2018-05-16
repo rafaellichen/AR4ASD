@@ -18,7 +18,7 @@ YouTube Demo: https://www.youtube.com/watch?v=uIKPubBTKG8 (Old)
 
 <img src="https://cl.ly/rXuX/IMG_0657.PNG" width="400"/> <img src="https://cl.ly/rXtF/IMG_0656.PNG" width="400"/>
 
-||||
+|Role|Name|Description|
 |-|-|-|
 |Team Leader|Rafael Li Chen|Department of Computer Science, The City College of New York|
 |Team Member|Xinyu Xiong|Department of Computer Science, The City College of New York|
